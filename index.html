@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convert to RAMP</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      opacity: 0.85;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      margin-bottom: 15px;
+    }
+
+    pre {
+      width: 100%;
+      max-width: 500px;
+      background: #1a1a1a;
+      padding: 12px;
+      border-radius: 6px;
+      word-break: break-all;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Convert to RAMP</h1>
+  <p>Convert an Eaglercraft WebSocket IP to RAMP for use on Vanilla 1.5.2 Java Edition</p>
+
+  <input
+    id="input"
+    type="text"
+    placeholder="ws(s)://example.com:port"
+  />
+
+  <pre id="output">Awaiting input...</pre>
+
+  <script>
+    const input = document.getElementById("input");
+    const output = document.getElementById("output");
+
+    input.addEventListener("input", () => {
+      if (input.value.length === 0) {
+        output.textContent = "Awaiting input...";
+        return;
+      }
+
+      const encoded = input.value
+        .split("")
+        .map(c => c.charCodeAt(0).toString(36))
+        .join("")
+        .match(/.{1,63}/g)
+        .join(".");
+
+      output.textContent = `${encoded}.${window.location.hostname}`;
+    });
+  </script>
+</body>
+</html>
